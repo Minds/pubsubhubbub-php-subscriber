@@ -47,7 +47,7 @@ class Subscriber
     protected $verify_token;
 
     /**
-     * @var string
+     * @var int
      */
     protected $lease_seconds;
 
@@ -57,8 +57,9 @@ class Subscriber
      * @param string $hub_url
      * @param string $callback_url
      * @param string $credentials
+     * @param array $options
      */
-    public function __construct($hub_url, $callback_url, $credentials = false)
+    public function __construct($hub_url, $callback_url, $credentials = false, array $options = [])
     {
         if (! isset($hub_url)) {
             throw new InvalidArgumentException('Please specify a hub url');
@@ -75,6 +76,10 @@ class Subscriber
         $this->hub_url = $hub_url;
         $this->callback_url = $callback_url;
         $this->credentials = $credentials;
+
+        if ($options['lease_seconds'] ?? null) {
+            $this->lease_seconds = $options['lease_seconds'];
+        }
     }
 
     /**
